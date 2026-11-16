@@ -53,59 +53,60 @@ Socket programming finds applications in various domains, including web developm
 4.	Networked Games: Online multiplayer games rely on socket programming to facilitate communication between game clients and servers.
 5.	RPC mechanisms: which allow processes to execute code on a remote server, often use socket programming for communication.
      
-   CLIENT:
-  
-   import socket
+ ## Algorithm:
+## Client.py
+1.  Import the socket module and create a socket object.
+2.  Specify the port number and server IP address.
+3.  Connect the client socket to the server.
+4.  Receive data from the server and display the message.
+5.  Close the client connection.
 
- Create a socket object
-client_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
 
-Connect to the server
-client_socket.connect(('localhost', 8000))
+## Server.py
+1.  Import the socket module and create a socket object.
+2.  Assign a port number and bind the socket to the port.
+3.  Set the socket to listening mode for incoming connections.
+4.  Accept client connections and display the client address.
+5.  Send a message to the client and close the connection.
 
- Print the client's socket name
-print(f"Client connected from: {client_socket.getsockname()}")
+## program:
+## client:
+~~~
+# Import socket module 
+import socket             
 
- Receive a message from the server
-server_message = client_socket.recv(1024).decode()
-print(f"Received from server: {server_message}")
+# Create a socket object 
+s = socket.socket()         
 
- Send a message to the server
-client_socket.send("Acknowledgement received from the client.".encode())
+# Define the port on which you want to connect 
+port = 12345                
 
-Close the connection
-client_socket.close()
-   
+# connect to the server on local computer 
+s.connect(('127.0.0.1', port)) 
 
-SERVER:
-
-import socket
-
- Create a socket object
-server_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
-
- Bind the socket to the host and port
-server_socket.bind(('localhost', 8000))
-
-Listen for incoming connections (max 1 connection)
-server_socket.listen(1)
-print("Server is waiting for a connection...")
-
-Accept the connection
-conn, addr = server_socket.accept()
-print(f"Connected by {addr}")
-
-Send a message to the client
-conn.send("Hello from the server!".encode())
-
-Receive a message from the client
-data = conn.recv(1024)
-print(f"Received from client: {data.decode()}")
-
-Close the connection
-conn.close()
-server_socket.close()
-
+# receive data from the server and decoding to get the string.
+print (s.recv(1024).decode())
+# close the connection 
+s.close()
+~~~
+## server:
+~~~
+import socket             
+# next create a socket object 
+s = socket.socket()         
+print ("Socket successfully created")
+port = 12345                
+s.bind(('127.0.0.1', port))         
+print ("socket binded to %s" %(port)) 
+s.listen(5)     
+print ("socket is listening")            
+while True: 
+  c, addr = s.accept()     
+  print ('Got connection from', addr )
+  c.send('Thank you for connecting'.encode()) 
+  # Close the connection with the client 
+c.close()
+~~~
 
  OUTPUT:
  <img width="500" height="497" alt="image" src="https://github.com/user-attachments/assets/1fcfa6ff-bb16-4cb0-a7d7-728e5c0e1a23" />
